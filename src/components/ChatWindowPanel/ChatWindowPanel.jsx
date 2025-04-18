@@ -1,123 +1,131 @@
-import React from 'react';
-import { Avatar, Box, Button, Card, CardActionArea, CardContent, Grid, TextField, Typography } from '@mui/material';
-import AIAvatar from '../../assets/ai-avatar.png';
+import { Box, Typography, Button, Avatar, TextField, IconButton  } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import AIAvatar from "../../assets/ai-avatar.png";
+import SuggestedQuests from "../SuggestedQuestions/SuggestedQuestion";
 
-const ChatWindowPanel = () => {
+export default function Chatwindow({ toggleSidebar }) {
+  return (
+    <Box sx={{height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
+      <Box
+        sx={{
+            height: "80px",
+            display: "flex",
+            p: 4,
+            justifyContent: "flex-start",
+            alignItems: "center",
+            top: 0,  
+        }}
+      >
+        <IconButton
+            onClick={toggleSidebar}
+            sx={{ display: { xs: "block", md: "none" }, mt: 1, mr: 1 }}
+        >
+            <MenuIcon />  
+        </IconButton>
 
-    const suggestions = [
-        "What's the weather like today?",
-        "Give me productivity tips",
-        "Explain a tech concept",
-        "Tell me a fun fact"
-    ];
+        <Typography variant="h5" sx={{ color: "primary.main", fontWeight: "600", textAlign: { xs: 'center', md: 'left' }, }}>
+            Bot AI
+        </Typography>
+      </Box>
 
-    return (
-        <Box xs={12} md={9} sx={{ position: 'relative'}}>
+      <Box
+        sx={{
+            flexGrow: 1,
+            overflowY: "auto",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            p: 5,
+            gap: 10,
+            '&::-webkit-scrollbar': {
+                display: 'none',
+            },
+        }}
+      >
+        <Box 
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}>
+          <Typography variant="h4" fontWeight={600} mb={3}>
+            How Can I Help You Today?
+          </Typography>
+          <Avatar src={AIAvatar} alt="AI Avatar" sx={{ width: 90, height: 90, boxShadow: "-4px 4px 10px 0px #00000026" }} />
+        </Box>
+        
 
-            <Box sx={{ pl: 4, pt: 2.5 }}>
-                <Typography variant="h5" color="primary.light" fontWeight={600}>
-                    Bot AI
-                </Typography>
-            </Box>
+        <Box 
+            sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+            }}>
+            <SuggestedQuests />
+        </Box>
+        
+      </Box>
 
-            <Box 
-                sx={{ 
-                    flexGrow: 1, 
-                    overflowY: 'auto', 
-                    width: '500px', 
-                    display: 'flex', 
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    position: 'absolute',
-                    left: 350,
-                    top: 100
-                }}>
-
-                <Typography variant="h5" textAlign="center" fontWeight={600} mb={3}>
-                    How Can I Help You Today?
-                </Typography>
-
-                <Avatar src={AIAvatar} alt="AI Avatar" sx={{ width: 80, height: 80, mb: 4 }} />
-
-                <Box>
-
-                    <Grid container spacing={2} justifyContent="center" maxWidth="sm">
-                        {suggestions.map((question, index) => (
-                            <Grid item xs={12} sm={6} key={index}>
-                                <Card sx={{ backgroundColor: '#D7C7F4' }}>
-                                    <CardActionArea>
-                                        <CardContent>
-                                            <Typography variant="body1" fontWeight={500}>
-                                                {question}
-                                            </Typography>
-                                        </CardContent>
-                                    </CardActionArea>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
-
-                </Box>
-
-            </Box>
-
-
-            <Box 
+      <Box
+        sx={{
+            width: "100%",
+            py: { xs: 2, md: 1},
+            px: { xs: 3, md: 5},
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: { xs: 1, md: 3}
+        }}
+      >
+            <TextField 
                 sx={{
-                    position: 'fixed',
-                    bottom: 0,
-                    left: 300,
-                    width: '80%',
-                    p: 2,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    gap: 2,
+                    flexGrow: 1,
+                    minWidth: { xs: '70%', md: '60%' },
+                    maxWidth: { xs: '100%', md: '80%' },
+                    width: "80%", 
+                    backgroundColor: "secondary.contrastText",
+                    height: { xs: "35px", md: '100%' },
+                    '& .MuiInputBase-root': {
+                        height: '100%',
+                        fontSize: { xs: '0.8rem', md: '1rem' },
+                    },
+                    '& input': {
+                        padding: '0 8px',
+                    },
+                }}
+            />
+            <Button 
+                variant="contained" 
+                sx={{
+                    height: { sx: "30px", md: "50px"}, 
+                    minWidth: { xs: '50px', md: '100px' },
+                    boxShadow: "none", 
+                    color: "#000000",
+                    fontWeight: 600,
+                    fontSize: "15px",
+                    backgroundColor: "secondary.main"
                 }}
             >
-                <TextField
-                    sx={{ 
-                        width: '1050px', 
-                        backgroundColor: '#FFFFFF', 
-                        height: '48px', mb: 1, 
-                        border: '1px solid #00000073',
-                        '& .MuiInputBase-root': { height: '100%'} 
-                    }}
-                    variant="outlined"
-                />
-                <Button 
-                    variant="contained" 
-                    disableElevation 
-                    sx={{
-                        fontWeight: '600', 
-                        mb: 1, 
-                        height: '45px',
-                        width: '100px', 
-                        backgroundColor: 'secondary.main', 
-                        color: 'text.primary', 
-                        '&:hover': { backgroundColor: 'primary.light'}
-                    }}>
-                    Ask
-                </Button>
-
-                <Button 
-                    variant="contained" 
-                    disableElevation 
-                    sx={{
-                        fontWeight: '600', 
-                        mb: 1, 
-                        height: '45px',
-                        width: '100px', 
-                        backgroundColor: 'secondary.main', 
-                        color: 'text.primary', 
-                        '&:hover': { backgroundColor: 'primary.light'}
-                    }}>
-                    Save
-                </Button>
-            </Box>
-
-        </Box>
-    );
+                Ask
+            </Button>
+            <Button 
+                variant="contained" 
+                sx={{
+                    height: { sx: "30px", md: "50px"}, 
+                    minWidth: { xs: '50px', md: '100px' }, 
+                    boxShadow: "none", 
+                    color: "#000000",
+                    fontWeight: 600,
+                    fontSize: "15px",
+                    backgroundColor: "secondary.main"
+                }}
+            >
+                Save
+            </Button>
+      </Box>
+      
+    </Box>
+  );
 }
-
-export default ChatWindowPanel;
