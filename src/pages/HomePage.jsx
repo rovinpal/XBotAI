@@ -18,8 +18,10 @@ export default function Homepage() {
                 height: "100vh",
                 width: "100vw",
                 overflow: "hidden",
-                background:
-                "linear-gradient(180deg, rgba(215, 199, 244, 0.2) 0%, rgba(151, 133, 186, 0.2) 100%)",
+                background:{
+                    sx: "linear-gradient(180deg, rgba(215, 199, 244, 0.2) 0%, rgba(151, 133, 186, 0.2) 100%)",
+                    md: "linear-gradient(180deg, #F9FAFA 59%, #EDE4FF 100%)"
+                }
             }}
         >
             <Box

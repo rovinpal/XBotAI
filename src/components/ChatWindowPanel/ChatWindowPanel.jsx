@@ -48,6 +48,7 @@ export default function Chatwindow({ toggleSidebar }) {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
+            textAlign: "center"
           }}>
           <Typography variant="h4" fontWeight={600} mb={3}>
             How Can I Help You Today?
