@@ -1,9 +1,80 @@
+import { useState } from "react";
 import { Box, Typography, Button, Avatar, TextField, IconButton  } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AIAvatar from "../../assets/ai-avatar.png";
 import SuggestedQuests from "../SuggestedQuestions/SuggestedQuestion";
+import FeedbackModal from "../FeedbackModal/FeedbackModal";
+import ChatBubble from "../ChatBubble/ChatBubble";
+import UserAvatar from "../../assets/user-avatar.png";
 
 export default function Chatwindow({ toggleSidebar }) {
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const messages = [
+    {
+      sender: "You",
+      message: "Hey, what's the weather like today?",
+      avatar: UserAvatar,
+      timestamp: "10:30 AM",
+      isAI: false,
+    },
+    {
+      sender: "Soul AI",
+      message: "It's sunny and 24°C where you are 🌞",
+      avatar: AIAvatar,
+      timestamp: "10:32 AM",
+      isAI: true,
+    },
+    {
+      sender: "You",
+      message: "Hey, what's the weather like today?",
+      avatar: UserAvatar,
+      timestamp: "10:30 AM",
+      isAI: false,
+    },
+    {
+      sender: "Soul AI",
+      message: "It's sunny and 24°C where you are 🌞",
+      avatar: AIAvatar,
+      timestamp: "10:32 AM",
+      isAI: true,
+    },
+    {
+      sender: "You",
+      message: "Hey, what's the weather like today?",
+      avatar: UserAvatar,
+      timestamp: "10:30 AM",
+      isAI: false,
+    },
+    {
+      sender: "Soul AI",
+      message: "It's sunny and 24°C where you are 🌞",
+      avatar: AIAvatar,
+      timestamp: "10:32 AM",
+      isAI: true,
+    },
+    {
+      sender: "You",
+      message: "Hey, what's the weather like today?",
+      avatar: UserAvatar,
+      timestamp: "10:30 AM",
+      isAI: false,
+    },
+    {
+      sender: "Soul AI",
+      message: "It's sunny and 24°C where you are 🌞",
+      avatar: AIAvatar,
+      timestamp: "10:32 AM",
+      isAI: true,
+    },
+  ];
+
+  const handleFeedbackSubmit = () => {
+    setFeedbackOpen(false);
+  };
+
+
+
+
   return (
     <Box sx={{height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
       <Box
@@ -18,7 +89,7 @@ export default function Chatwindow({ toggleSidebar }) {
       >
         <IconButton
             onClick={toggleSidebar}
-            sx={{ display: { xs: "block", md: "none" }, mt: 1, mr: 1 }}
+            sx={{ display: { xs: "block", md: "none" }, mt: 1, mr: 1, color: "primary.main" }}
         >
             <MenuIcon />  
         </IconButton>
@@ -33,15 +104,25 @@ export default function Chatwindow({ toggleSidebar }) {
             flexGrow: 1,
             overflowY: "auto",
             display: "flex",
-            flexDirection: "column",
+            flexDirection: "column-reverse",
             alignItems: "center",
             p: 5,
-            gap: 10,
+            gap: 3,
             '&::-webkit-scrollbar': {
                 display: 'none',
             },
         }}
       >
+        <Box 
+            sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+            }}>
+            <SuggestedQuests />
+        </Box>
+
         <Box 
           sx={{
             display: "flex",
@@ -57,16 +138,18 @@ export default function Chatwindow({ toggleSidebar }) {
         </Box>
         
 
-        <Box 
-            sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-            }}>
-            <SuggestedQuests />
-        </Box>
         
+
+        {messages.map((msg, idx) => (
+          <ChatBubble
+            key={idx}
+            sender={msg.sender}
+            message={msg.message}
+            avatar={msg.avatar}
+            timestamp={msg.timestamp}
+            isAI={msg.isAI}
+          />
+        ))}
       </Box>
 
       <Box
@@ -113,6 +196,7 @@ export default function Chatwindow({ toggleSidebar }) {
             </Button>
             <Button 
                 variant="contained" 
+                onClick={() => setFeedbackOpen(true)}
                 sx={{
                     height: { sx: "30px", md: "50px"}, 
                     minWidth: { xs: '50px', md: '100px' }, 
@@ -126,6 +210,12 @@ export default function Chatwindow({ toggleSidebar }) {
                 Save
             </Button>
       </Box>
+
+      <FeedbackModal 
+        open={feedbackOpen} 
+        onClose={() => setFeedbackOpen(false)} 
+        onSubmit={handleFeedbackSubmit} 
+      />
       
     </Box>
   );
