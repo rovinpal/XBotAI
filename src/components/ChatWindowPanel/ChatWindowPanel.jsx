@@ -41,6 +41,9 @@ export default function Chatwindow({ toggleSidebar }) {
     };
   
     setMessages(prev => [...prev, userMessage, aiMessage]);
+    setTimeout(() => {
+      setMessages(prev => [...prev, aiMessage]);
+    }, 100);
     setInput("");
   };
 
