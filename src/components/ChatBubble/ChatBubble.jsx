@@ -29,11 +29,11 @@ export default function ChatBubble({ sender, message, avatar, timestamp, isAI = 
                     gap: 1
                 }}
             >
-                <Typography sx={{ color: "text.primary", fontWeight: "600" }}>
+                <Typography component= "span" sx={{ color: "text.primary", fontWeight: "600" }}>
                     {sender}
                 </Typography>
 
-                <Typography>
+                <Typography component="p">
                     {message}
                 </Typography>
             

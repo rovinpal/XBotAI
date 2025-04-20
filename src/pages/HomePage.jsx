@@ -33,7 +33,6 @@ export default function Homepage() {
                     height: "100%",
                     transition: "all 0.3s ease-in-out",
                     boxShadow: { xs: 3, md: 0 },
-                    // overflow: "hidden",
                 }}
             >
                 <ChatHistoryPanel onClose={() => setShowSidebar(false)}/>

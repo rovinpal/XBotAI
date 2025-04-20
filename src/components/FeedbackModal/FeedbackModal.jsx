@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Box, Button, IconButton, Modal, TextField, Typography } from "@mui/material";
-// import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import LightBulbIcon from "../../assets/lightbulb-icon.png";
 import CloseIcon from "@mui/icons-material/Close";
 import RatingModal from "../RatingModal/RatingModal";
@@ -15,7 +14,7 @@ export default function FeedbackModal({ open, onClose }){
 
     const handleRatingClose  = () => {
         setShowRating(false);
-        onclose();
+        onClose();
     }
 
     return (
@@ -28,7 +27,6 @@ export default function FeedbackModal({ open, onClose }){
                     justifyContent: "center",
                     alignItems: "center",
                     backdropFilter: "blur(2px)",
-                    // backgroundColor: "rgba(255,255,255,0.8)",
                 }}
             >
                 <Box
@@ -104,7 +102,7 @@ export default function FeedbackModal({ open, onClose }){
                 </Box>
             </Modal>
 
-            <RatingModal open={showRating} onClose={handleRatingClose} />
+            <RatingModal open={showRating} onClose={() => handleRatingClose(false)} />
         </>
     );
 }
