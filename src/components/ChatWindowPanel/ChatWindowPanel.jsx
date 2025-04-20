@@ -100,8 +100,18 @@ export default function Chatwindow({ toggleSidebar }) {
         }}
       >
 
-        {messages.length === 0 && (
-          <>
+        {messages.length === 0 ? (
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              width: "100%",
+              gap: 4
+            }}
+          >
             <Box 
               sx={{
                 display: "flex",
@@ -109,7 +119,8 @@ export default function Chatwindow({ toggleSidebar }) {
                 justifyContent: "center",
                 alignItems: "center",
                 textAlign: "center"
-              }}>
+              }}
+            >
               <Typography variant="h4" fontWeight={600} mb={3}>
                 How Can I Help You Today?
               </Typography>
@@ -122,24 +133,23 @@ export default function Chatwindow({ toggleSidebar }) {
                     flexDirection: "column",
                     justifyContent: "center",
                     alignItems: "center",
-                }}>
+                }}
+            >
                 <SuggestedQuests />
             </Box>
-          </>
+          </Box>      
+        ) : (
+          messages.map((msg, idx) => (
+            <ChatBubble
+              key={idx}
+              sender={msg.sender}
+              message={msg.message}
+              avatar={msg.avatar}
+              timestamp={msg.timestamp}
+              isAI={msg.isAI}
+            />
+          ))
         )}
-
-
-
-        {messages.map((msg, idx) => (
-          <ChatBubble
-            key={idx}
-            sender={msg.sender}
-            message={msg.message}
-            avatar={msg.avatar}
-            timestamp={msg.timestamp}
-            isAI={msg.isAI}
-          />
-        ))}
       </Box>
 
 
