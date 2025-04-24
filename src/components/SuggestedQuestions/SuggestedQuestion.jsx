@@ -7,7 +7,8 @@ const questions = [
   "Hi, how are you?",
 ];
 
-export default function SuggestedQuestions() {
+export default function SuggestedQuestions({ onSelect }) {
+  
   return (
     <Box
       sx={{
@@ -29,6 +30,7 @@ export default function SuggestedQuestions() {
           }}
         >
           <Card
+            onClick={() => onSelect(question)}
             sx={{
               height: '100%',
               display: 'flex',
@@ -36,7 +38,9 @@ export default function SuggestedQuestions() {
               justifyContent: 'space-between',
               p: 2,
               boxShadow: "0px 4px 10px 0px #00000026",
-
+              "&:hover": {
+                backgroundColor: "primary.contrastText",
+              }
             }}
           >
             <Typography fontWeight={600}>

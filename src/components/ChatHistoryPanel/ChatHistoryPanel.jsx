@@ -1,9 +1,15 @@
 import { Box, Typography, Avatar, IconButton } from "@mui/material";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import CloseIcon from '@mui/icons-material/Close';
 import AIAvatar from "../../assets/ai-pic.png";
 import NewChatIcon from "../../assets/newchat-icon.png";
 
 export default function ChatHistory({ onClose }) {
+  const location = useLocation();
+  const isHomepage = location.pathname === "/";
+  const navigate = useNavigate();
+
+
   return (
     <Box
       sx={{
@@ -28,7 +34,11 @@ export default function ChatHistory({ onClose }) {
             <Typography variant="h5" sx={{ fontWeight: "600", color: "#000000" }}>New Chat</Typography>
         </Box>
 
-        <IconButton size="small" sx={{ ml: 3, mr: 1 }}>
+        <IconButton 
+          size="small" 
+          sx={{ ml: 3, mr: 1 }}
+          onClick={() => navigate("/", { state: { reset: true } })}  
+        >
             <img src={NewChatIcon} alt="New Chat" width={30} height={30} />
         </IconButton>
 
@@ -59,9 +69,24 @@ export default function ChatHistory({ onClose }) {
             justifyContent: "center",
             alignItems: "center",
             borderRadius: "10px",
+            '&:hover': {
+              // backgroundColor: "primary.light",
+              boxShadow: "0px 4px 5px rgba(0, 0, 0, 0.5)",
+            }
           }}
         >
-          <Typography variant="h5" sx={{ fontWeight: "600", color: "#414146" }}>Past Conversations</Typography>
+          <Link to={isHomepage ? "/history" : "/"} style={{ textDecoration: "none" }}>
+            <Typography 
+              variant="h5" 
+              sx={{ 
+                fontWeight: "600", 
+                color: "#414146",
+                textAlign: "center" 
+              }}
+            >
+              {isHomepage ? "Past Conversation" : "Back to Chat"}
+            </Typography>
+          </Link>
         </Box>
       </Box>
     </Box>

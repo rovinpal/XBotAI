@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import ChatHistoryPanel from "../components/ChatHistoryPanel/ChatHistoryPanel";
 import ChatWindowPanel from "../components/ChatWindowPanel/ChatWindowPanel";
 
-export default function Homepage() {
+export default function HomePage() {
     const [showSidebar, setShowSidebar] = useState(false);
 
     const toggleSidebar = () => {
@@ -44,7 +44,7 @@ export default function Homepage() {
                 overflow: "hidden",
                 }}
             >
-                <ChatWindowPanel toggleSidebar={toggleSidebar}/>
+                <ChatWindowPanel toggleSidebar={toggleSidebar} isHistoryPage={false}/>
             </Box>
         </Box>
     );

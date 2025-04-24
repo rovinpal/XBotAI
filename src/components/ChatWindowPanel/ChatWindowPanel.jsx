@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { Box, Typography, Button, Avatar, TextField, IconButton  } from "@mui/material";
+import { Box, Typography, Button, Avatar, TextField, IconButton, Snackbar } from "@mui/material";
+import { useLocation, Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import SuggestedQuests from "../SuggestedQuestions/SuggestedQuestion";
 import FeedbackModal from "../FeedbackModal/FeedbackModal";
@@ -7,29 +8,35 @@ import ChatBubble from "../ChatBubble/ChatBubble";
 import sampleData from "../../aiData/sampleData.json";
 import UserAvatar from "../../assets/user-avatar.png";
 import AIAvatar from "../../assets/ai-avatar.png";
+// import HistoryPage from "../../pages/HistoryPage";
 
 
-export default function Chatwindow({ toggleSidebar }) {
+export default function Chatwindow({ toggleSidebar, isHistoryPage = false }) {
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const chatContainerRef = useRef(null);
+  const location = useLocation();
+  const [showSnackbar, setShowSnackbar] = useState(false);
 
-  const handleAsk = (e) => {
-    e.preventDefault();
+  const handleAsk = (e, customInput = null) => {
+    if (e) e.preventDefault();
   
-    if (!input.trim()) return;
+    const messageToSend = customInput || input;
+    const trimmed = messageToSend.toLowerCase().trim();
+
+    if (!trimmed) return;
   
     const userMessage = {
       sender: "You",
-      message: input,
+      message: messageToSend,
       avatar: UserAvatar,
       timestamp: new Date().toLocaleTimeString(),
       isAI: false,
     };
   
     const matched = sampleData.find(item =>
-      item.question.toLowerCase().trim().includes(input.toLowerCase().trim())
+      trimmed.toLowerCase().replace(/[.,!?]/g, '') === item.question.toLowerCase().replace(/[.,!?]/g, '')
     );
   
     const aiMessage = {
@@ -40,10 +47,10 @@ export default function Chatwindow({ toggleSidebar }) {
       isAI: true,
     };
   
-    setMessages(prev => [...prev, userMessage, aiMessage]);
+    setMessages(prev => [...prev, userMessage]);
     setTimeout(() => {
       setMessages(prev => [...prev, aiMessage]);
-    }, 100);
+    }, 1000);
     setInput("");
   };
 
@@ -59,6 +66,38 @@ export default function Chatwindow({ toggleSidebar }) {
     setFeedbackOpen(false);
   };
 
+  const handleSuggestedClick = (question) => {
+    setInput(question); 
+    handleAsk(null, question); 
+  };
+
+  useEffect(() => {
+    if (location.pathname === "/" && location.state?.reset) {
+      setMessages([]);
+    }
+  }, [location]);
+
+
+  const handleSave = () => {
+    const chat_history = JSON.parse(localStorage.getItem('chat')) || [];
+  
+    const date = new Date();
+  
+    const newChat = [{ chat: messages, datetime: date }, ...chat_history];
+  
+    localStorage.setItem('chat', JSON.stringify(newChat));
+  
+    // console.log('Saved data:', newChat);
+  
+    setShowSnackbar(true);
+    setMessages([]);
+
+    setTimeout(() => {
+      setShowSnackbar(false);
+    }, 3000);
+  };
+
+  
 
 
 
@@ -82,7 +121,7 @@ export default function Chatwindow({ toggleSidebar }) {
         </IconButton>
 
         <Typography variant="h5" sx={{ color: "primary.main", fontWeight: "600", textAlign: { xs: 'center', md: 'left' }, }}>
-            Bot AI
+          {isHistoryPage ? "Conversation History" : "Bot AI"}
         </Typography>
       </Box>
 
@@ -104,6 +143,7 @@ export default function Chatwindow({ toggleSidebar }) {
       >
 
         {messages.length === 0 ? (
+          !isHistoryPage && (
           <Box
             sx={{
               flexGrow: 1,
@@ -112,7 +152,7 @@ export default function Chatwindow({ toggleSidebar }) {
               justifyContent: "flex-end",
               alignItems: "center",
               width: "100%",
-              gap: 4
+              gap: 5
             }}
           >
             <Box 
@@ -138,9 +178,10 @@ export default function Chatwindow({ toggleSidebar }) {
                     alignItems: "center",
                 }}
             >
-                <SuggestedQuests />
+                <SuggestedQuests onSelect={handleSuggestedClick} />
             </Box>
-          </Box>      
+          </Box>   
+          )
         ) : (
           messages.map((msg, idx) => (
             <ChatBubble
@@ -155,73 +196,75 @@ export default function Chatwindow({ toggleSidebar }) {
         )}
       </Box>
 
-
-      <Box component= "form" onSubmit={handleAsk} sx={{ width: "100%" }}>
-        <Box
-          sx={{
-              width: "100%",
-              py: { xs: 2, md: 1},
-              px: { xs: 3, md: 5},
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: { xs: 1, md: 3},
-              mb: 1
-          }}
-        >
-              <TextField
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder= "Message Bot AI…"
-                  sx={{
-                      flexGrow: 1,
-                      minWidth: { xs: '70%', md: '60%' },
-                      maxWidth: { xs: '100%', md: '80%' },
-                      width: "80%", 
-                      backgroundColor: "secondary.contrastText",
-                      height: { xs: "35px", md: '50px' },
-                      '& .MuiInputBase-root': {
-                          height: '100%',
-                          fontSize: { xs: '0.8rem', md: '1rem' },
-                      },
-                      '& input': {
-                          padding: '0 8px',
-                      },
-                  }}
-              />
-              <Button 
-                  type="submit"
-                  variant="contained" 
-                  sx={{
-                      height: { sx: "30px", md: "50px"}, 
-                      minWidth: { xs: '50px', md: '100px' },
-                      boxShadow: "none", 
-                      color: "#000000",
-                      fontWeight: 600,
-                      fontSize: "15px",
-                      backgroundColor: "secondary.main"
-                  }}
-              >
-                  Ask
-              </Button>
-              <Button 
-                  type="button"
-                  variant="contained" 
-                  onClick={() => setFeedbackOpen(true)}
-                  sx={{
-                      height: { sx: "30px", md: "50px"}, 
-                      minWidth: { xs: '50px', md: '100px' }, 
-                      boxShadow: "none", 
-                      color: "#000000",
-                      fontWeight: 600,
-                      fontSize: "15px",
-                      backgroundColor: "secondary.main"
-                  }}
-              >
-                  Save
-              </Button>
+      {!isHistoryPage && (
+        <Box component= "form" onSubmit={handleAsk} sx={{ width: "100%" }}>
+          <Box
+            sx={{
+                width: "100%",
+                py: { xs: 2, md: 1},
+                px: { xs: 3, md: 5},
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: { xs: 1, md: 3},
+                mb: 1
+            }}
+          >
+                <TextField
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    placeholder= "Message Bot AI…"
+                    sx={{
+                        flexGrow: 1,
+                        minWidth: { xs: '70%', md: '60%' },
+                        maxWidth: { xs: '100%', md: '80%' },
+                        width: "80%", 
+                        backgroundColor: "secondary.contrastText",
+                        height: { xs: "35px", md: '50px' },
+                        '& .MuiInputBase-root': {
+                            height: '100%',
+                            fontSize: { xs: '0.8rem', md: '1rem' },
+                        },
+                        '& input': {
+                            padding: '0 8px',
+                        },
+                    }}
+                />
+                <Button 
+                    type="submit"
+                    variant="contained" 
+                    sx={{
+                        height: { sx: "30px", md: "50px"}, 
+                        minWidth: { xs: '50px', md: '100px' },
+                        boxShadow: "none", 
+                        color: "#000000",
+                        fontWeight: 600,
+                        fontSize: "15px",
+                        backgroundColor: "secondary.main"
+                    }}
+                >
+                    Ask
+                </Button>
+                <Button 
+                    type="button"
+                    variant="contained" 
+                    onClick={handleSave}
+                    sx={{
+                        height: { sx: "30px", md: "50px"}, 
+                        minWidth: { xs: '50px', md: '100px' }, 
+                        boxShadow: "none", 
+                        color: "#000000",
+                        fontWeight: 600,
+                        fontSize: "15px",
+                        backgroundColor: "secondary.main"
+                    }}
+                >
+                    Save
+                </Button>
+          </Box>
         </Box>
-      </Box>
+      )}
+
 
 
       <FeedbackModal 
@@ -229,7 +272,18 @@ export default function Chatwindow({ toggleSidebar }) {
         onClose={() => setFeedbackOpen(false)} 
         onSubmit={handleFeedbackSubmit} 
       />
-      
+
+      <Snackbar
+        open={showSnackbar}
+        message="Chat saved."
+        onClose={() => setShowSnackbar(false)}
+        action={
+          <Link to="/history">
+            <Button size="small" sx={{ color: "secondary.main" }}>See past conversations</Button>
+          </Link>
+        }
+      />
+
     </Box>
   );
 }

@@ -2,20 +2,22 @@ import { useState } from "react";
 import { Box, Button, IconButton, Modal, TextField, Typography } from "@mui/material";
 import LightBulbIcon from "../../assets/lightbulb-icon.png";
 import CloseIcon from "@mui/icons-material/Close";
-import RatingModal from "../RatingModal/RatingModal";
+// import RatingModal from "../RatingModal/RatingModal";
 
-export default function FeedbackModal({ open, onClose }){
-    const [showRating, setShowRating] = useState(false);
+export default function FeedbackModal({ open, onClose, onSubmit  }){
+    // const [showRating, setShowRating] = useState(false);
     const [feedback, setFeedback] = useState("");
 
     const handleSubmit = () => {
-        setShowRating(true);
-    }
-
-    const handleRatingClose  = () => {
-        setShowRating(false);
+        onSubmit(feedback);
         onClose();
     }
+
+    // const handleRatingClose  = () => {
+    //     setShowRating(false);
+    //     onSubmit(feedback);
+    //     onClose();
+    // }
 
     return (
         <>
@@ -102,7 +104,7 @@ export default function FeedbackModal({ open, onClose }){
                 </Box>
             </Modal>
 
-            <RatingModal open={showRating} onClose={() => handleRatingClose(false)} />
+            {/* <RatingModal open={showRating} onClose={() => handleRatingClose(false)} /> */}
         </>
     );
 }
