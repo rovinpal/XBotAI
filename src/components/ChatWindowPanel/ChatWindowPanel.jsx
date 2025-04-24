@@ -120,7 +120,7 @@ export default function Chatwindow({ toggleSidebar, isHistoryPage = false }) {
             <MenuIcon />  
         </IconButton>
 
-        <Typography variant="h5" sx={{ color: "primary.main", fontWeight: "600", textAlign: { xs: 'center', md: 'left' }, }}>
+        <Typography variant="h1" sx={{ color: "primary.main", fontWeight: "600", textAlign: { xs: 'center', md: 'left' }, }}>
           {isHistoryPage ? "Conversation History" : "Bot AI"}
         </Typography>
       </Box>
