@@ -50,7 +50,7 @@ export default function Chatwindow({ toggleSidebar, isHistoryPage = false }) {
     setMessages(prev => [...prev, userMessage]);
     setTimeout(() => {
       setMessages(prev => [...prev, aiMessage]);
-    }, 1000);
+    }, 500);
     setInput("");
   };
 
@@ -121,7 +121,7 @@ export default function Chatwindow({ toggleSidebar, isHistoryPage = false }) {
         </IconButton>
 
         <header>
-          <Typography variant="h1" sx={{ color: "primary.main", fontWeight: "600", textAlign: { xs: 'center', md: 'left' }, }}>
+          <Typography variant="h5" component="h1" sx={{ color: "primary.main", fontWeight: "600", textAlign: { xs: 'center', md: 'left' }, }}>
             {isHistoryPage ? "Conversation History" : "Bot AI"}
           </Typography>
         </header>

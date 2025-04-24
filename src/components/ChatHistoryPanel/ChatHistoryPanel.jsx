@@ -20,12 +20,17 @@ export default function ChatHistory({ onClose }) {
       }}
     >
       <Box
+        onClick={() => navigate("/", { state: { reset: true } })}
         sx={{
           backgroundColor: "secondary.main",
           height: "80px",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          "&:hover":{
+            backgroundColor: "primary.light",
+            cursor: "pointer"
+          }
         }}
       >
         
@@ -36,8 +41,7 @@ export default function ChatHistory({ onClose }) {
 
         <IconButton 
           size="small" 
-          sx={{ ml: 3, mr: 1 }}
-          onClick={() => navigate("/", { state: { reset: true } })}  
+          sx={{ ml: 3, mr: 1 }}  
         >
             <img src={NewChatIcon} alt="New Chat" width={30} height={30} />
         </IconButton>

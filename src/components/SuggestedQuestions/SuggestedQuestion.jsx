@@ -40,6 +40,7 @@ export default function SuggestedQuestions({ onSelect }) {
               boxShadow: "0px 4px 10px 0px #00000026",
               "&:hover": {
                 backgroundColor: "primary.contrastText",
+                cursor: "pointer"
               }
             }}
           >
