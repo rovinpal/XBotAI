@@ -213,7 +213,7 @@ export default function Chatwindow({ toggleSidebar, isHistoryPage = false }) {
                 <TextField
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    placeholder= "Message Bot AI…"
+                    placeholder= "Message Bot AI..."
                     sx={{
                         flexGrow: 1,
                         minWidth: { xs: '70%', md: '60%' },
