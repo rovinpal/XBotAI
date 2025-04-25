@@ -1,12 +1,12 @@
 import { Box, Typography, Avatar, IconButton } from "@mui/material";
-import { useLocation, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import CloseIcon from '@mui/icons-material/Close';
 import AIAvatar from "../../assets/ai-pic.png";
 import NewChatIcon from "../../assets/newchat-icon.png";
 
 export default function ChatHistory({ onClose }) {
-  const location = useLocation();
-  const isHomepage = location.pathname === "/";
+  // const location = useLocation();
+  // const isHomepage = location.pathname === "/";
 
 
   return (

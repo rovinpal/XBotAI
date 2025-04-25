@@ -1,4 +1,4 @@
-import { Avatar, Box, Typography, Rating } from '@mui/material';
+import { Avatar, Box, Typography, Rating, Stack } from '@mui/material';
 
 export default function ChatCard({ details }) {
     const { sender, message, avatar, timestamp, isAI, feedback, rating } = details;
@@ -19,7 +19,7 @@ export default function ChatCard({ details }) {
         >
             <Avatar src={avatar} alt={sender} sx={{ width: 80, height: 80 }} />
 
-            <Box>
+            <Stack>
                 <Typography fontWeight={600} sx={{mb: 1}}>{sender}</Typography>
                 <Typography component="div">{message}</Typography>
                 <Typography mt={1} color="#0000009E">{timestamp}</Typography>
@@ -36,7 +36,7 @@ export default function ChatCard({ details }) {
                         <Typography fontSize={15}><strong>Feedback:</strong> {feedback}</Typography>
                     </Box>
                 )}
-            </Box>
+            </Stack>
         </Box>
     );
 }
