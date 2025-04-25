@@ -89,7 +89,7 @@ export default function ChatHistory({ onClose }) {
                   textAlign: "center" 
                 }}
               >
-                {isHomepage ? "Past Conversations" : "Back to Chat"}
+                {!isHomepage ? "Back to Chat" : "Past Conversations" }
               </Typography>
           </Box>
         </Link>
