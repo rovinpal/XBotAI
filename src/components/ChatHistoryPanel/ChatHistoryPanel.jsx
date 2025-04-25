@@ -66,7 +66,7 @@ export default function ChatHistory({ onClose }) {
         //   height: "auto",
         }}
       >
-        <Link to={isHomepage ? "/history" : "/"} style={{ textDecoration: "none" }}>
+        <Link to={"/history"} style={{ textDecoration: "none" }}>
           <Box
             sx={{
               backgroundColor: "secondary.main",
@@ -89,7 +89,7 @@ export default function ChatHistory({ onClose }) {
                   textAlign: "center" 
                 }}
               >
-                {!isHomepage ? "Back to Chat" : "Past Conversations" }
+                Past Conversations
               </Typography>
           </Box>
         </Link>
