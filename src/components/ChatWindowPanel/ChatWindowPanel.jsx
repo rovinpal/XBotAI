@@ -45,6 +45,8 @@ export default function Chatwindow({ toggleSidebar, isHistoryPage = false }) {
       avatar: AIAvatar,
       timestamp: new Date().toLocaleTimeString(),
       isAI: true,
+      feedback: "",
+      rating: 0
     };
   
     setMessages(prev => [...prev, userMessage]);
@@ -52,6 +54,18 @@ export default function Chatwindow({ toggleSidebar, isHistoryPage = false }) {
       setMessages(prev => [...prev, aiMessage]);
     }, 500);
     setInput("");
+  };
+
+  const updateFeedbackForMessage = (index, feedback, rating = 0) => {
+    setMessages(prevMessages => {
+      const newMessages = [...prevMessages];
+      newMessages[index] = {
+        ...newMessages[index],
+        feedback,
+        rating
+      };
+      return newMessages;
+    });
   };
 
 
@@ -87,7 +101,7 @@ export default function Chatwindow({ toggleSidebar, isHistoryPage = false }) {
   
     localStorage.setItem('chat', JSON.stringify(newChat));
   
-    // console.log('Saved data:', newChat);
+    console.log('Saved data:', newChat);
   
     setShowSnackbar(true);
     setMessages([]);
@@ -193,6 +207,9 @@ export default function Chatwindow({ toggleSidebar, isHistoryPage = false }) {
               avatar={msg.avatar}
               timestamp={msg.timestamp}
               isAI={msg.isAI}
+              feedback={msg.feedback}
+              rating={msg.rating}
+              onFeedbackSubmit={(feedback, rating) => updateFeedbackForMessage(idx, feedback, rating)}
             />
           ))
         )}

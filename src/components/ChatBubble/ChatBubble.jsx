@@ -7,12 +7,14 @@ import ThumbDownAltOutlinedIcon from "@mui/icons-material/ThumbDownAltOutlined";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt"; 
 
 
-export default function ChatBubble({ sender, message, avatar, timestamp, isAI = false}) {
+export default function ChatBubble({ sender, message, avatar, timestamp, isAI = false,
+    feedback: initialFeedback = "", rating: initialRating = 0, onFeedbackSubmit
+}) {
     const [showFeedback, setShowFeedback] = useState(false);
-    const [rating, setRating] = useState(0);
+    const [rating, setRating] = useState(initialRating);
     const [isThumbsUp, setIsThumbsUp] = useState(false);
     const [isThumbsDown, setIsThumbsDown] = useState(false);
-    const [feedback, setFeedback] = useState("");
+    const [feedback, setFeedback] = useState(initialFeedback);
 
     const handleThumbsUp = () => {
         setIsThumbsUp(true);
@@ -27,6 +29,7 @@ export default function ChatBubble({ sender, message, avatar, timestamp, isAI = 
     
     const handleFeedbackSubmit = (submittedFeedback) => {
         setFeedback(submittedFeedback);
+        onFeedbackSubmit(submittedFeedback, rating);
         setShowFeedback(false);
     };
 
@@ -108,7 +111,10 @@ export default function ChatBubble({ sender, message, avatar, timestamp, isAI = 
                             <Rating
                                 name="feedback-rating"
                                 value={rating}
-                                onChange={(event, newValue) => setRating(newValue)}
+                                onChange={(event, newValue) => {
+                                    setRating(newValue);
+                                    onFeedbackSubmit(feedback, newValue);
+                                }}
                             />
                         </Box>
                     )}
