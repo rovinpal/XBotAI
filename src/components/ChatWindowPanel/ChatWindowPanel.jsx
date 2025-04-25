@@ -94,16 +94,12 @@ export default function Chatwindow({ toggleSidebar, isHistoryPage = false }) {
 
 
   const handleSave = () => {
-    const chat_history = JSON.parse(localStorage.getItem('chat')) || [];
-  
-    const date = new Date();
-  
-    const newChat = [{ chat: messages, datetime: date }, ...chat_history];
-  
-    localStorage.setItem('chat', JSON.stringify(newChat));
-  
+    const chat_history = JSON.parse(localStorage.getItem('chat')) || [];  
+    const date = new Date();  
+    const newChat = [{ chat: messages, datetime: date }, ...chat_history];  
+    localStorage.setItem('chat', JSON.stringify(newChat));  
     console.log('Saved data:', newChat);
-  
+
     setShowSnackbar(true);
     setMessages([]);
 

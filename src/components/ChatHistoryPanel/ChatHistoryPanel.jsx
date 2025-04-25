@@ -66,33 +66,33 @@ export default function ChatHistory({ onClose }) {
         //   height: "auto",
         }}
       >
-        <Box
-          sx={{
-            backgroundColor: "secondary.main",
-            height: "60px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: "10px",
-            '&:hover': {
-              // backgroundColor: "primary.light",
-              boxShadow: "0px 4px 5px rgba(0, 0, 0, 0.5)",
-            }
-          }}
-        >
-          <Link to={isHomepage ? "/history" : "/"} style={{ textDecoration: "none" }}>
-            <Typography 
-              variant="h5" 
-              sx={{ 
-                fontWeight: "600", 
-                color: "#414146",
-                textAlign: "center" 
-              }}
-            >
-              {isHomepage ? "Past Conversations" : "Back to Chat"}
-            </Typography>
-          </Link>
-        </Box>
+        <Link to={isHomepage ? "/history" : "/"} style={{ textDecoration: "none" }}>
+          <Box
+            sx={{
+              backgroundColor: "secondary.main",
+              height: "60px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: "10px",
+              '&:hover': {
+                // backgroundColor: "primary.light",
+                boxShadow: "0px 4px 5px rgba(0, 0, 0, 0.5)",
+              }
+            }}
+          >
+              <Typography 
+                variant="h5" 
+                sx={{ 
+                  fontWeight: "600", 
+                  color: "#414146",
+                  textAlign: "center" 
+                }}
+              >
+                {isHomepage ? "Past Conversations" : "Back to Chat"}
+              </Typography>
+          </Box>
+        </Link>
       </Box>
     </Box>
   );
