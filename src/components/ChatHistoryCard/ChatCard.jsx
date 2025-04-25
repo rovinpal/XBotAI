@@ -21,7 +21,7 @@ export default function ChatCard({ details }) {
 
             <Box>
                 <Typography fontWeight={600} sx={{mb: 1}}>{sender}</Typography>
-                <Typography>{message}</Typography>
+                <Typography component="div">{message}</Typography>
                 <Typography mt={1} color="#0000009E">{timestamp}</Typography>
 
                 {isAI && rating > 0 && (
