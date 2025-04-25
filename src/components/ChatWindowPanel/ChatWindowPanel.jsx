@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import { Box, Typography, Button, Avatar, TextField, IconButton, Snackbar } from "@mui/material";
+import { Box, Typography, Button, Avatar, TextField, IconButton, Snackbar, Divider } from "@mui/material";
 import { useLocation, Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import SuggestedQuests from "../SuggestedQuestions/SuggestedQuestion";
 import FeedbackModal from "../FeedbackModal/FeedbackModal";
 import ChatBubble from "../ChatBubble/ChatBubble";
+import ChatHistoryCard from "../ChatHistoryCard/ChatHistoryCard";
 import sampleData from "../../aiData/sampleData.json";
 import UserAvatar from "../../assets/user-avatar.png";
 import AIAvatar from "../../assets/ai-avatar.png";
@@ -158,60 +159,79 @@ export default function Chatwindow({ toggleSidebar, isHistoryPage = false }) {
         }}
       >
 
-        {messages.length === 0 ? (
-          !isHistoryPage && (
-          <Box
-            sx={{
-              flexGrow: 1,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "flex-end",
-              alignItems: "center",
-              width: "100%",
-              gap: 5
-            }}
-          >
-            <Box 
+        {isHistoryPage ? (
+          <>
+            {(() => {
+              const history = JSON.parse(localStorage.getItem('chat')) || [];
+
+              return history.length === 0 ? (
+                <Typography>No past chats found.</Typography>
+              ) : (
+                history.map((details, index) => (
+                  <Box key={index} width="100%">
+                    <ChatHistoryCard details={details} />
+                    <Divider sx={{ my: 5, borderColor: "#9C9C9C" }} />
+                  </Box>
+                ))
+              );
+            })()}
+          </>
+        ) : (
+          messages.length === 0 ? (
+            !isHistoryPage && (
+            <Box
               sx={{
+                flexGrow: 1,
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "center",
+                justifyContent: "flex-end",
                 alignItems: "center",
-                textAlign: "center"
+                width: "100%",
+                gap: 5
               }}
             >
-              <Typography variant="h4" fontWeight={600} mb={3}>
-                How Can I Help You Today?
-              </Typography>
-              <Avatar src={AIAvatar} alt="AI Avatar" sx={{ width: 90, height: 90, boxShadow: "-4px 4px 10px 0px #00000026" }} />
-            </Box>
-
-            <Box 
+              <Box 
                 sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  textAlign: "center"
                 }}
-            >
-                <SuggestedQuests onSelect={handleSuggestedClick} />
-            </Box>
-          </Box>   
+              >
+                <Typography variant="h4" fontWeight={600} mb={3}>
+                  How Can I Help You Today?
+                </Typography>
+                <Avatar src={AIAvatar} alt="AI Avatar" sx={{ width: 90, height: 90, boxShadow: "-4px 4px 10px 0px #00000026" }} />
+              </Box>
+  
+              <Box 
+                  sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                  }}
+              >
+                  <SuggestedQuests onSelect={handleSuggestedClick} />
+              </Box>
+            </Box>   
+            )
+          ) : (
+            messages.map((msg, idx) => (
+              <ChatBubble
+                key={idx}
+                sender={msg.sender}
+                message={msg.message}
+                avatar={msg.avatar}
+                timestamp={msg.timestamp}
+                isAI={msg.isAI}
+                feedback={msg.feedback}
+                rating={msg.rating}
+                onFeedbackSubmit={(feedback, rating) => updateFeedbackForMessage(idx, feedback, rating)}
+              />
+            ))
           )
-        ) : (
-          messages.map((msg, idx) => (
-            <ChatBubble
-              key={idx}
-              sender={msg.sender}
-              message={msg.message}
-              avatar={msg.avatar}
-              timestamp={msg.timestamp}
-              isAI={msg.isAI}
-              feedback={msg.feedback}
-              rating={msg.rating}
-              onFeedbackSubmit={(feedback, rating) => updateFeedbackForMessage(idx, feedback, rating)}
-            />
-          ))
         )}
       </Box>
 

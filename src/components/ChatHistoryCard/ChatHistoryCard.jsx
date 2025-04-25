@@ -30,9 +30,12 @@ export default function ChatHistoryCard({ details }) {
         {formatDate(startOfDay(new Date(details.datetime)))}
       </Typography>
 
-      <Stack spacing={{ xs: 2, md: 3 }}>
+      <Stack spacing={{ xs: 2, md: 5 }}>
         {groupedChats.map((pair, index) => (
-          <ChatCard details={pair} readOnly={true} key={index} />
+          <Stack key={index} spacing={3}>
+            <ChatCard details={pair.user} readOnly={true} />
+            <ChatCard details={pair.ai} readOnly={true} />
+          </Stack>
         ))}
       </Stack>
     </Box>
