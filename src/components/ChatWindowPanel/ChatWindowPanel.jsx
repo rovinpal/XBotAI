@@ -53,7 +53,7 @@ export default function Chatwindow({ toggleSidebar, isHistoryPage = false }) {
     setMessages(prev => [...prev, userMessage]);
     setTimeout(() => {
       setMessages(prev => [...prev, aiMessage]);
-    }, 500);
+    }, 0);
     setInput("");
   };
 
